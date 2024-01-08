@@ -13,7 +13,8 @@ struct QueryFieldView: View {
     @FocusState private var isFocused: Bool
     
     private func submitAndClean() -> Void {
-        onSubmitClosure(query); query = String()
+        onSubmitClosure(query)
+        query = String()
     }
     var body: some View {
         HStack {
@@ -29,17 +30,8 @@ struct QueryFieldView: View {
             .disabled(query.isEmpty)
         }
         .padding(10)
-        .overlay(
-            RoundedRectangle(cornerRadius: Constants.BORDER_RADIUS)
-                .stroke(
-                    LinearGradient(colors: isFocused ? [Color.cyan] : [
-                        Constants.ROYAL_BLUE,
-                        Constants.ROYAL_GOLD,
-                        Constants.ROYAL_ORANGE
-                    ],
-                                   startPoint: .leading,
-                                   endPoint: .trailing))
-        )
+        .overlay(RoundedRectangle(cornerRadius: Constants.BORDER_RADIUS)
+            .stroke(isFocused ? LinearGradient(colors:[Color.cyan], startPoint: .leading, endPoint: .trailing) : Constants.USER_FRAME_COLOR))
         .padding([.horizontal, .bottom])
         .onSubmit(submitAndClean)
     }
@@ -48,6 +40,7 @@ struct QueryFieldView: View {
 
 struct QueryField_Previews: PreviewProvider {
     static var previews: some View {
-        QueryFieldView(query: "something to ask the great great WATTS", onSubmitClosure: {query in })
+        QueryFieldView(query: "something to ask the great great WATTS",
+                       onSubmitClosure: {query in })
     }
 }

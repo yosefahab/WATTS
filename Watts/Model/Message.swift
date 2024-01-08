@@ -7,14 +7,20 @@
 
 import Foundation
 
+
+public enum Role {
+    case User
+    case WATTS
+}
 struct Message: Identifiable {
     let id: UUID
     let text: String
-    let isUser: Bool
+    let role: Role
     
-    init(id: UUID = UUID(), text: String = String(), isUser: Bool = true) {
+
+    init(id: UUID = UUID(), text: String = String(), role: Role = .User) {
         self.id = id
         self.text = text
-        self.isUser = isUser
+        self.role = role
     }
 }

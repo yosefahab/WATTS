@@ -33,7 +33,9 @@ struct ChatView: View {
 struct ChatView_Previews: PreviewProvider {
     static var previews: some View {
         ChatView(messages: .constant(
-            [Message(text: "A person who thinks all the time, has nothing to think about except thoughts.\nA person who thinks all the time, has nothing to think about except thoughts.\nA person who thinks all the time, has nothing to think about except thoughts.\nA person who thinks all the time, has nothing to think about except thoughts.", isUser: false), Message(text: "ok ok chill man")])
+            [
+                Message(text: "A person who thinks all the time, has nothing to think about except thoughts.\nA person who thinks all the time, has nothing to think about except thoughts.\nA person who thinks all the time, has nothing to think about except thoughts.\nA person who thinks all the time, has nothing to think about except thoughts.", role: .WATTS),
+                Message(text: "ok ok chill man")])
         )
     }
 }

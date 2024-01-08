@@ -15,10 +15,10 @@ struct MainView: View {
             ChatView(messages: $store.messages)
             QueryFieldView(onSubmitClosure: { (query) -> Void in
                 let sanitized_query = store.sanitize_text(text: query)
-                store.push_message(text: sanitized_query, isUser: true)
+                store.push_message(text: sanitized_query, role: .User)
                 
                 let response: String = sendQuery(query)
-                store.push_message(text: response, isUser: false)
+                store.push_message(text: response, role: .WATTS)
             })
         }
         .background(Background())

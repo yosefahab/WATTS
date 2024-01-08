@@ -12,28 +12,28 @@ struct MessageView: View {
     
     var body: some View {
         HStack {
-            Text(message.isUser ? "<You>" : "<WATTS>")
+            Text(message.role == .User ? "<You>" : "<WATTS>")
                 .bold()
                 .frame(width: 65) // Horizontally aligns all messages regardless of size
-                .foregroundColor(message.isUser ? Constants.USER_COLOR : Constants.WATTS_COLOR)
             Text(message.text)
                 .multilineTextAlignment(.leading)
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .foregroundColor(message.isUser ? Constants.USER_COLOR : Constants.WATTS_COLOR)
         }
+        .foregroundColor(message.role == .User ?
+                         Constants.USER_TEXT_COLOR : Constants.WATTS_TEXT_COLOR)
         .padding(10)
         .overlay(RoundedRectangle(cornerRadius: Constants.BORDER_RADIUS)
-            .stroke(LinearGradient(colors: [
-                Constants.ROYAL_GOLD,
-                Constants.ROYAL_ORANGE
-            ], startPoint: .leading, endPoint: .trailing)
-            )
+            .stroke(message.role == .User ?
+                Constants.USER_FRAME_COLOR : Constants.WATTS_FRAME_COLOR)
         )
     }
 }
 
 struct MessageView_Previews: PreviewProvider {
     static var previews: some View {
-        MessageView(message: Message(text: "A person who thinks all the time, has nothing to think about except thoughtssssssss", isUser: false)).padding(.all)
+        VStack {
+            MessageView(message: Message(text: "A person who thinks all the time, has nothing to think about except thoughtssssssss", role: .WATTS)).padding(.all)
+            MessageView(message: Message(text: "Cool", role: .User)).padding(.all)
+        }
     }
 }
