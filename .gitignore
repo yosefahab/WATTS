@@ -90,3 +90,7 @@ fastlane/test_output
 iOSInjectionProject/
 
 .DS_Store
+
+# LLM models of .gguf or ggml extensions
+*.gguf
+*.ggml

@@ -9,12 +9,13 @@ import SwiftUI
 
 struct QueryFieldView: View {
     @State var query: String = String()
-    let onSubmitClosure: (_ query: String) -> Void
+    let onSubmitClosure: (_ query: String) async -> Void
     @FocusState private var isFocused: Bool
     
-    private func submitAndClean() -> Void {
-        onSubmitClosure(query)
+    private func submitAndClean() async -> Void {
+        let user_query = query
         query = String()
+        await onSubmitClosure(user_query)
     }
     var body: some View {
         HStack {
@@ -23,8 +24,8 @@ struct QueryFieldView: View {
                 .textFieldStyle(PlainTextFieldStyle())
                 .focused($isFocused)
             
-            Button(action: submitAndClean  ) {
-                Image(systemName: Constants.submitIcon)
+            Button(action: { Task { await submitAndClean() } }) {
+                    Image(systemName: Constants.SUBMIT_ICON)
             }
             .buttonStyle(PlainButtonStyle())
             .disabled(query.isEmpty)
@@ -33,7 +34,7 @@ struct QueryFieldView: View {
         .overlay(RoundedRectangle(cornerRadius: Constants.BORDER_RADIUS)
             .stroke(isFocused ? LinearGradient(colors:[Color.cyan], startPoint: .leading, endPoint: .trailing) : Constants.USER_FRAME_COLOR))
         .padding([.horizontal, .bottom])
-        .onSubmit(submitAndClean)
+        .onSubmit({ Task { await submitAndClean() } })
     }
     
 }

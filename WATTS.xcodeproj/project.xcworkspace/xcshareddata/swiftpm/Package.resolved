@@ -1,0 +1,32 @@
+{
+  "pins" : [
+    {
+      "identity" : "ggml",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ggerganov/ggml.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "5a3154b59242d17b2225872a2538d341f4f28c54"
+      }
+    },
+    {
+      "identity" : "llama.cpp",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ggerganov/llama.cpp",
+      "state" : {
+        "branch" : "master",
+        "revision" : "18c2e1752c3b387689e9e73d7d8a1a3b1511ce23"
+      }
+    },
+    {
+      "identity" : "llm.swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/eastriverlee/LLM.swift/",
+      "state" : {
+        "branch" : "main",
+        "revision" : "9d881782dd3cc81eb8b15de5b70e75bebd086cf2"
+      }
+    }
+  ],
+  "version" : 2
+}
