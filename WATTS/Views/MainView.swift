@@ -11,11 +11,10 @@ struct MainView: View {
     @EnvironmentObject var store: WATTStore
     var body: some View {
         VStack {
-            Spacer()
             ChatView(messages: $store.messages)
-            QueryFieldView(onSubmitClosure: { (query) -> Void in
+            QueryFieldView(onSubmitClosure: { query in
                 await store.sendQuery(query)
-            })
+            }, stopClosure: store.stop)
         }
         .background(Background())
     }

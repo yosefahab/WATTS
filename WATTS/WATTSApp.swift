@@ -13,7 +13,6 @@ struct WattsApp: App {
         WindowGroup {
             MainView()
                 .frame(idealWidth: NSScreen.main!.frame.width/2, alignment: .center)
-                .background(TransparentEffect())
                 .environmentObject(WATTStore())
         }
         .windowStyle(.hiddenTitleBar)

@@ -15,13 +15,5 @@ struct Constants {
     static let ROYAL_BLUE: Color = Color(red: 65/255, green: 105/255, blue: 225/255)
     static let ROYAL_GOLD: Color = Color(red: 213/255, green: 190/255, blue: 139/255, opacity: 0.6)
     
-    static let USER_FRAME_COLOR = LinearGradient(colors: [Constants.ROYAL_BLUE, Constants.ROYAL_GOLD, Constants.ROYAL_ORANGE], startPoint: .leading, endPoint: .trailing)
-    static let WATTS_FRAME_COLOR = LinearGradient(colors: [Constants.ROYAL_GOLD, Constants.ROYAL_ORANGE], startPoint: .leading, endPoint: .trailing)
-    static let WATTS_TEXT_COLOR: Color = Color(red: 245/255, green: 238/255, blue: 183/255)
-    static let USER_TEXT_COLOR: Color = Color(red: 140/255, green: 155/255, blue: 200/255)
-    
-    static let SUBMIT_ICON: String = "arrow.up.circle.fill"
-    
-    static let MODEL_NAME: String = "llama-2-7b.Q4_K_M"
-    static let MODEL_EXTENSION: String = "gguf"
+    static let MODEL = (name: "tinyllama-1.1b-chat-v1.0.Q2_K", extension: "gguf")
 }

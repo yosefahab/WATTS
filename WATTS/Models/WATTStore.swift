@@ -8,13 +8,19 @@
 import Foundation
 
 class WATTStore: ObservableObject {
-    @Published var messages: [Message] = [Message(text: "Welcome! how can i help you?", role: .WATTS)]
-    private let watts = WATTS()
-    
+    static private let DEFAULT_MESSAGE = Message(text: "Welcome! how can i help you?", role: .WATTS)
+    @Published var messages: [Message]
+    private let watts: WATTS
+    init(messages: [Message] = [DEFAULT_MESSAGE]) {
+        // TODO: optionally create a new chat with provided history ([Message]), should help when restoring chats
+        /// First message in the chat
+        self.messages = messages
+        self.watts = WATTS()
+    }
     /** Sanitizes text, removing possibly malicious characters
      - Parameter text: The text to sanitize
      */
-    private func sanitize_text(text: String) -> String {
+    static private func sanitize_text(text: String) -> String {
         // TODO: Implement
         return text
     }
@@ -24,19 +30,34 @@ class WATTStore: ObservableObject {
      - Parameter message: The user's query
      */
     public func sendQuery(_ query: String) async -> Void {
-        
         // first sanitize the text, then push it to the messages array
-        let sanitized_query = self.sanitize_text(text: query)
+        let sanitized_query = Self.sanitize_text(text: query)
         await MainActor.run { // updates to published variables need to happen on the main thread
-            self.messages.append(Message(text: sanitized_query, role: .User))
+            messages.append(Message(text: query, role: .User))
+            
+            // prepend the message, it will then be updated using the AsyncStream later
+            messages.append(Message(text: "", role: .WATTS))
         }
         
-        // get the LLM's response and adds it to the messages array
-        Task {
-            await watts.respond(to: query)
-            DispatchQueue.main.async {
-                self.messages.append(Message(text: self.watts.output, role: .WATTS))
+        // TODO: this should probably be moved to WATTS and pass a closure to update the messages array from there
+        await watts.respond(to: sanitized_query) { [self] response in
+            await watts.setOutput(to: "")
+            for await responseDelta in response {
+                await MainActor.run { // updates to published variables need to happen on the main thread
+                    messages[messages.count-1].text += responseDelta
+                }
+                await watts.setOutput(to: watts.output + responseDelta)
             }
+            let trimmedOutput = watts.output.trimmingCharacters(in: .whitespacesAndNewlines)
+            await watts.setOutput(to: trimmedOutput.isEmpty ? "..." : trimmedOutput)
+            // final copy
+            await MainActor.run { // updates to published variables need to happen on the main thread
+                messages[messages.count-1].text = watts.output
+            }
+            return watts.output
         }
+    }
+    public func stop() {
+        self.watts.stop()
     }
 }

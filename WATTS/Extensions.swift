@@ -33,12 +33,3 @@ extension View {
         modifier(RemoveFocusOnTapModifier())
     }
 }
-
-struct TransparentEffect: NSViewRepresentable {
-    /// Makes the main window transparent
-  func makeNSView(context: Self.Context) -> NSView {
-      return NSVisualEffectView()
-  }
-    
-  func updateNSView(_ nsView: NSView, context: Context) { }
-}
